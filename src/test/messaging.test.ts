@@ -34,6 +34,7 @@ describe("Messaging", () => {
     // Act: Send messages up to the limit
     for (let i = 0; i < limit; i++) {
       const wasMessageSent = user.sendMessage(`Message ${i + 1}`, chat);
+      console.log(`Message ${i + 1}`, wasMessageSent);
       expect(wasMessageSent).toBe(true);
     }
 

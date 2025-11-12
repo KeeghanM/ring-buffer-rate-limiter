@@ -11,6 +11,11 @@ class RateLimiter {
 
   canSendMessage(): boolean {
     let canSend = false;
+    console.log("start", {
+      rp: this.readPointer,
+      wp: this.writePointer,
+      rbValue: this.ringBuffer[this.readPointer],
+    });
 
     if (
       this.ringBuffer[this.readPointer]! <
@@ -19,14 +24,21 @@ class RateLimiter {
       canSend = true;
       this.ringBuffer[this.readPointer] = Date.now();
       this.writePointer =
-        this.writePointer % (this.ringBuffer.length - 1) === 0
+        this.writePointer % this.ringBuffer.length === 0
           ? 0
           : this.writePointer + 1;
     }
 
     this.readPointer++;
-    if (this.readPointer % (this.ringBuffer.length - 1) === 0)
-      this.readPointer = 0;
+    if (this.readPointer % this.ringBuffer.length === 0) this.readPointer = 0;
+
+    console.log("end", {
+      canSend,
+      rp: this.readPointer,
+      wp: this.writePointer,
+      rbValue: this.ringBuffer[this.readPointer],
+    });
+
     return canSend;
   }
 }
