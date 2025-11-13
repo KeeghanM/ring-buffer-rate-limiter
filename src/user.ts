@@ -14,7 +14,7 @@ class User {
   }
 
   sendMessage(message: string, chat: Chat): boolean {
-    if (!this.rateLimiter.canSendMessage()) return false;
+    if (!this.rateLimiter.canDoAction()) return false;
 
     chat.sendMessage(message, this.id);
     return true;
